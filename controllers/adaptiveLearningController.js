@@ -6,7 +6,8 @@ export const getAdaptiveContent = async (req, res) => {
 
   try {
     const user = await User.findById(userId);
-    const userProgress = user.progress; // Example progress tracking
+    // Example progress tracking
+    const userProgress = user.progress; 
 
     const content = await Course.find({ difficulty: { $lte: userProgress } });
 

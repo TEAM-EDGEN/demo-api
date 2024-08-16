@@ -18,3 +18,28 @@ async function run() {
   }
   
   run();
+
+
+
+
+//   import io from 'socket.io';
+
+// const socketServer = (server) => {
+//   const ioInstance = io(server);
+
+//   ioInstance.on('connection', (socket) => {
+//     console.log('New user connected');
+
+//     socket.on('chat message', (msg) => {
+//       ioInstance.emit('chat message', msg);
+//     });
+
+//     socket.on('disconnect', () => {
+//       console.log('User disconnected');
+//     });
+//   });
+
+//   return ioInstance;
+// };
+
+// export default socketServer;

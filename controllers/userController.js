@@ -1,14 +1,14 @@
 import jwt from 'jsonwebtoken';
 import nodemailer from 'nodemailer';
 import bcrypt from 'bcrypt';
-import User from '../models/userModel.js';
+import { UserModel } from '../models/userModel.js';
 // import { jwtSecret } from '../config/keys.js';
 
 
 
 export const getAllUsers = async (req, res) => {
   try {
-    const users = await User.find();
+    const users = await UserModel.find();
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
@@ -17,7 +17,7 @@ export const getAllUsers = async (req, res) => {
 
 export const getUserById = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await UserModel.findById(req.params.id);
     if (!user) return res.status(404).json({ message: 'User not found' });
     res.status(200).json(user);
   } catch (error) {
@@ -27,7 +27,7 @@ export const getUserById = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   try {
-    const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const user = await UserModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!user) return res.status(404).json({ message: 'User not found' });
     res.status(200).json(user);
   } catch (error) {
@@ -37,7 +37,7 @@ export const updateUser = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
   try {
-    const user = await User.findByIdAndDelete(req.params.id);
+    const user = await UserModel.findByIdAndDelete(req.params.id);
     if (!user) return res.status(404).json({ message: 'User not found' });
     res.status(200).json({ message: 'User deleted successfully' });
   } catch (error) {
@@ -76,7 +76,7 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
   const { email, password } = req.body;
   try {
-    const user = await User.findOne({ email });
+    const user = await UserModel.findOne({ email });
     if (!user || !(await user.comparePassword(password))) {
        // Initialize session
        req.session.user = { id: user._id, userName: user.userName, role: user.role};
@@ -121,14 +121,14 @@ export const login = async (req, res) => {
 export const forgotPassword = async (req, res) => {
   const { email } = req.body;
   try {
-    const user = await User.findOne({ email });
+    const user = await UserModel.findOne({ email });
     if (!user) return res.status(404).json({ message: 'User not found' });
 
     const token = crypto.randomBytes(20).toString('hex');
     // Save token to user for password reset
     user.resetPasswordToken = token;
-    user.resetPasswordExpire = Date.now() + 3600000; // 1 hour
-    await user.save();
+    // 1 hour
+ user.resetPasswordExpire = Date.now() + 3600000;    await user.save();
 
     // Send email with reset link (using nodemailer)
     const transporter = nodemailer.createTransport({
