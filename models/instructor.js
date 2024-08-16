@@ -15,4 +15,4 @@ const instructorSchema = new Schema({
 
 instructorSchema.plugin(toJSON)
 
-export const instructorModel = model('Instructor', instructorSchema);
+export const InstructorModel = model('Instructor', instructorSchema);

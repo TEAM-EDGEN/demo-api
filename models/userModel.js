@@ -35,20 +35,6 @@ const resetTokenSchema = new Schema({
 })
 
 
-
-// Encrypt password before saving
-userSchema.pre('save', async function(next) {
-  if (!this.isModified('password')) return next();
-  this.password = await bcrypt.hash(this.password, 10);
-  next();
-});
-
-// Verify password
-userSchema.methods.comparePassword = async function (enteredPassword) {
-  return await bcrypt.compare(enteredPassword, this.password);
-};
-
-
 userSchema.plugin(toJSON)
 
 export const resetTokenModel = model('resetToken', resetTokenSchema);

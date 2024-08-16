@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+import { toJSON } from '@reis/mongoose-to-json';
 
 const courseSchema = new Schema({
   title: { type: String, required: true },
@@ -8,4 +9,5 @@ const courseSchema = new Schema({
   content: { type: String },
 });
 
-export default model('Course', courseSchema);
+courseSchema.plugin(toJSON);
+export const CourseModel = model('Course', courseSchema);
