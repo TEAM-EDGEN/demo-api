@@ -2,3 +2,11 @@ node_modules
 package-lock.json
 yarn.lock
 .env
+
+edheadController.txt
+edhead.txt
+parent.txt
+edheadRoutes.txt
+parentRoutes.txt
+oerController.txt
+

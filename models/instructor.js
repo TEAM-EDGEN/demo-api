@@ -1,11 +1,18 @@
-import mongoose from 'mongoose';
+import { Schema, model, Types } from 'mongoose';
+import { toJSON } from '@reis/mongoose-to-json';
 
-const instructorSchema = new mongoose.Schema({
-  userName: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  // Add instructor-specific fields here
+const instructorSchema = new Schema({
+  expertise: { type: String, required: true },
+  coursesTaught: [{ type: Types.ObjectId, ref: 'Course' }],
+  nameOfInstitution: { type: String, required: true },
+  // Array of subjects that the instructor teaches
+  subjectsTaught: [{ type: String, required: true }],
+  yearsOfExperience: { type: Number, required: true }
+}, {
+  timestamps: true
 });
 
-const Instructor = mongoose.model('Instructor', instructorSchema);
-export default Instructor;
+
+instructorSchema.plugin(toJSON)
+
+export const instructorModel = model('Instructor', instructorSchema);
