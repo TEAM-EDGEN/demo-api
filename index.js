@@ -9,7 +9,8 @@ import MongoStore from "connect-mongo";
 import expressOasGenerator from '@mickeymond/express-oas-generator';
 import userRoutes from './routes/userRoutes.js';
 import instructorRouter from "./routes/instructorRoutes.js";
-import studentRoter from "./routes/studentRoutes.js"
+import studentRoter from "./routes/studentRoutes.js";
+import chatRouter from './routes/aiRoutes.js';
 
 
 // import adaptiveLearningRoutes from './routes/adaptiveLearningRoutes.js';
@@ -61,6 +62,7 @@ app.use(session({
 app.use('/api/v1', userRoutes);
 app.use('/api/v1', instructorRouter);
 app.use('/api/v1', studentRoter);
+app.use('/api/chat', chatRouter);
 
 // app.use('/api/adaptive-learning', adaptiveLearningRoutes);
 // app.use('/api/chat', chatRoutes);
