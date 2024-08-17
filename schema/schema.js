@@ -69,7 +69,7 @@ export const registerSchema = joi.object({
   firstname: joi.string().required(),
   lastname:joi.string().required(),
   username: joi.string().required(),
-  role: { type: String, enum: ['student', 'parent', 'educational-head', 'admin'], required: true },
+  role: { type: String, enum: ['Student', 'Parent', 'Educational_head', 'Instructor'], required: true },
   email: joi.string().email().required(),
   password: joi.string().required()
 });

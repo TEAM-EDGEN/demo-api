@@ -1,15 +1,15 @@
-import User from '../models/userModel.js';
-import Course from '../models/course.js';
+import { UserModel } from '../models/userModel.js';
+import { CourseModel } from '../models/course.js';
 
 export const getAdaptiveContent = async (req, res) => {
   const { userId } = req.params;
 
   try {
-    const user = await User.findById(userId);
+    const user = await UserModel.findById(userId);
     // Example progress tracking
     const userProgress = user.progress; 
 
-    const content = await Course.find({ difficulty: { $lte: userProgress } });
+    const content = await CourseModel.find({ difficulty: { $lte: userProgress } });
 
     res.status(200).json(content);
   } catch (error) {

@@ -6,6 +6,6 @@ const leaderboardSchema = new Schema({
   score: { type: Number, required: true },
 });
 
-leaderboardSchema,plugin(toJSON);
+leaderboardSchema.plugin(toJSON);
 
 export const LeaderboardModel = model('Leaderboard', leaderboardSchema);
