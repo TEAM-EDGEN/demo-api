@@ -11,16 +11,15 @@ import userRoutes from './routes/userRoutes.js';
 import instructorRouter from "./routes/instructorRoutes.js";
 import studentRoter from "./routes/studentRoutes.js";
 import chatRouter from './routes/aiRoutes.js';
-
-
-// import adaptiveLearningRoutes from './routes/adaptiveLearningRoutes.js';
-// import authRoutes from './routes/authRoutes.js';
-// import chatRoutes from './routes/chatRoutes.js';
-// import gamificationRoutes from './routes/gamificationRoutes.js';
-// import oerRoutes from './routes/oerRoutes.js';
-// import recommendationRoutes from './routes/recommendationRoutes.js';
+import courseRouter from "./routes/courseRoutes.js";
+import archievementRouter from "./routes/achievementRoutes.js";
+import adaptiveContentRouter from "./routes/adaptiveLearningRoutes.js";
+import leaderBoardRouter from "./routes/leaderRoutes.js";
+import badgeRouter from "./routes/badgeRoutes.js";
 // import videoRoutes from './routes/videoRoutes.js';
-// import socketServer from './controllers/chatController.js';
+
+
+
 
 
 
@@ -62,14 +61,16 @@ app.use(session({
 app.use('/api/v1', userRoutes);
 app.use('/api/v1', instructorRouter);
 app.use('/api/v1', studentRoter);
-app.use('/api/chat', chatRouter);
+app.use('/api/v1', courseRouter);
+app.use('/api/v1', adaptiveContentRouter);
+app.use('/api/v1', archievementRouter);
+app.use('/api/v1', chatRouter);
+app.use('/api/v1', badgeRouter);
+app.use('/api/v1', leaderBoardRouter);
 
-// app.use('/api/adaptive-learning', adaptiveLearningRoutes);
-// app.use('/api/chat', chatRoutes);
-// app.use('/api/gamification', gamificationRoutes);
-// app.use('/api/oer', oerRoutes);
-// app.use('/api/recommendations', recommendationRoutes);
-// app.use('/api/video', videoRoutes);
+// app.use('/api/v1', videoRouter);
+
+
 
 // OpenAPI generator requests handling
 expressOasGenerator.handleRequests();
