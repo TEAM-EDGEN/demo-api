@@ -1,4 +1,4 @@
-import Router from 'express';
+import { Router } from 'express';
 import { protect, authorizeRoles } from '../middlewares/auth.js';
 import { getAllUsers, getUserById, updateUser, deleteUser } from '../controllers/userController.js';
 import { register, login, forgotPassword, resetPassword } from '../controllers/userController.js';

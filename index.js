@@ -35,7 +35,7 @@ dbConnection();
 
 expressOasGenerator.handleResponses(app, {
     alwaysServeDocs: true,
-    tags: ["user", "instructor", "student", "course", "adaptive-content", "instructors", "chat", "achievements", "badge", "leader" ],
+    tags: ["user", "instructor", "student", "course", "adaptivecontent", "instructors", "chat", "achievements", "badge", "leader" ],
     mongooseModels: mongoose.modelNames()
 })
 

@@ -1,4 +1,4 @@
-import Router from 'express';
+import { Router } from 'express';
 import { getAchievements, createAchievement } from '../controllers/achievementController.js';
 
 const achievementRouter = Router();
