@@ -35,7 +35,7 @@ dbConnection();
 
 expressOasGenerator.handleResponses(app, {
     alwaysServeDocs: true,
-    tags: ["user", "outage", "neighbourhood"],
+    tags: ["user", "instructor", "student", "course", "adaptiveContent", "instructor", "chat", "archievement", "badge", "leaderBoard" ],
     mongooseModels: mongoose.modelNames()
 })
 
@@ -54,9 +54,6 @@ app.use(session({
         mongoUrl: process.env.MONGO_URL
     })
 }));
-
-
-
 // Routes
 app.use('/api/v1', userRoutes);
 app.use('/api/v1', instructorRouter);
