@@ -1,9 +1,9 @@
 import Router from 'express';
 import { getAchievements, createAchievement } from '../controllers/achievementController.js';
 
-const archievementRouter = Router();
+const achievementRouter = Router();
 
-archievementRouter.get('/achievements', getAchievements);
-archievementRouter.post('/achievements', createAchievement);
+achievementRouter.get('/achievements', getAchievements);
+achievementRouter.post('/achievements', createAchievement);
 
-export default archievementRouter;
+export default achievementRouter;

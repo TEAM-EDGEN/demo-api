@@ -8,19 +8,19 @@ const userRouter = Router();
 
 
 // Authentication Routes
-userRouter.post('/register', register);
-userRouter.post('/login', login);
-userRouter.post('/forgot-password', forgotPassword);
-userRouter.post('/reset-password/:token', resetPassword);
+userRouter.post('/user/register', register);
+userRouter.post('/user/login', login);
+userRouter.post('/user/forgot-password', forgotPassword);
+userRouter.post('/user/reset-password/:token', resetPassword);
 
 
 
 
 
 // User Management Routes (Protected)
-userRouter.get('/', protect, authorizeRoles('admin'), getAllUsers);
-userRouter.get('/:id', protect, getUserById);
-userRouter.post('/:id', protect, updateUser);
-userRouter.delete('/:id', protect, authorizeRoles('admin'), deleteUser);
+userRouter.get('/user/', protect, authorizeRoles('admin'), getAllUsers);
+userRouter.get('/user/:id', protect, getUserById);
+userRouter.post('/user/:id', protect, updateUser);
+userRouter.delete('/user/:id', protect, authorizeRoles('admin'), deleteUser);
 
 export default userRouter;
