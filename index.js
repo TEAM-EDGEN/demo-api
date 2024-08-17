@@ -12,7 +12,7 @@ import instructorRouter from "./routes/instructorRoutes.js";
 import studentRoter from "./routes/studentRoutes.js";
 import chatRouter from './routes/aiRoutes.js';
 import courseRouter from "./routes/courseRoutes.js";
-import archievementRouter from "./routes/achievementRoutes.js";
+import achievementRouter from "./routes/achievementRoutes.js";
 import adaptiveContentRouter from "./routes/adaptiveLearningRoutes.js";
 import leaderBoardRouter from "./routes/leaderRoutes.js";
 import badgeRouter from "./routes/badgeRoutes.js";
@@ -35,7 +35,7 @@ dbConnection();
 
 expressOasGenerator.handleResponses(app, {
     alwaysServeDocs: true,
-    tags: ["user", "instructor", "student", "course", "adaptiveContent", "instructor", "chat", "archievement", "badge", "leaderBoard" ],
+    tags: ["user", "instructor", "student", "course", "adaptive-content", "instructors", "chat", "achievements", "badge", "leader" ],
     mongooseModels: mongoose.modelNames()
 })
 
@@ -60,7 +60,7 @@ app.use('/api/v1', instructorRouter);
 app.use('/api/v1', studentRoter);
 app.use('/api/v1', courseRouter);
 app.use('/api/v1', adaptiveContentRouter);
-app.use('/api/v1', archievementRouter);
+app.use('/api/v1', achievementRouter);
 app.use('/api/v1', chatRouter);
 app.use('/api/v1', badgeRouter);
 app.use('/api/v1', leaderBoardRouter);
