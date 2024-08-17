@@ -1,29 +1,29 @@
 import genAI from '../config/generativeAI.js';
 
 // Example usage in a controller function
-export const generateText = async (req, res) => {
-  try {
-    // Get the specific generative model
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+// export const generateText = async (req, res) => {
+//   try {
+//     // Get the specific generative model
+//     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-    // Extract the prompt from the request body or use a default prompt
-    const prompt = req.body.prompt || "Write a story about an AI and magic";
+//     // Extract the prompt from the request body or use a default prompt
+//     const prompt = req.body.prompt || "Write a story about an AI and magic";
 
-    // Generate content using the model
-    const result = await model.generateContent(prompt);
+//     // Generate content using the model
+//     const result = await model.generateContent(prompt);
 
-    // Extract the response and text content
-    const response = await result.response;
-    const text = await response.text();
+//     // Extract the response and text content
+//     const response = await result.response;
+//     const text = await response.text();
 
-    // Send the generated text as the response
-    res.json({ text });
-  } catch (error) {
-    // Handle errors and send an error response
-    console.error("Error generating content:", error);
-    res.status(500).json({ message: 'Error generating text' });
-  }
-};
+//     // Send the generated text as the response
+//     res.json({ text });
+//   } catch (error) {
+//     // Handle errors and send an error response
+//     console.error("Error generating content:", error);
+//     res.status(500).json({ message: 'Error generating text' });
+//   }
+// };
 
 
 // Example usage in a controller function
