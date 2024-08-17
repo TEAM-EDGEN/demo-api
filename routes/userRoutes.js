@@ -18,7 +18,7 @@ userRouter.post('/user/reset-password/:token', resetPassword);
 
 
 // User Management Routes (Protected)
-userRouter.get('/user/', protect, authorizeRoles('admin'), getAllUsers);
+userRouter.get('/user', protect, authorizeRoles('admin'), getAllUsers);
 userRouter.get('/user/:id', protect, getUserById);
 userRouter.post('/user/:id', protect, updateUser);
 userRouter.delete('/user/:id', protect, authorizeRoles('admin'), deleteUser);
