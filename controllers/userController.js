@@ -1,68 +1,138 @@
 import { UserModel, resetTokenModel } from '../models/userModel.js';
 import { registerSchema, loginSchema } from '../schema/schema.js';
 import jwt from 'jsonwebtoken';
-import nodemailer from 'nodemailer';
 import bcrypt from 'bcrypt';
 
 
 
 // Register function
-export const register = async (req, res) => {
-  const { userName, email, password, role } = req.body;
+// export const register = async (req, res) => {
+//   const { firstName, lastName, userName, email, password, role } = req.body;
+
+//   try {
+//     // Validate input data
+//     const { error } = registerSchema.validate({ firstName, lastName, userName, email, password, role });
+//     if (error) return res.status(400).json({ message: error.details[0].message });
+
+//     // Check if user already exists
+//     const existingUser = await UserModel.findOne({ email });
+//     if (existingUser) return res.status(400).json({ message: 'User already exists' });
+
+//     // Hash password
+//     const hashedPassword = await bcrypt.hash(password, 10);
+
+//     // Create new user
+//     const newUser = new UserModel({
+//       firstName,
+//       lastName,
+//       userName,
+//       email,
+//       password: hashedPassword,
+//       role,
+//     });
+
+//     const savedUser = await newUser.save();
+//     res.status(201).json(savedUser);
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// };
+
+// LogIn function
+
+// Register function
+
+export const register = async (req, res, next) => {
+  const { firstName, lastName, userName, email, password, role } = req.body;
 
   try {
     // Validate input data
-    const { error } = registerSchema.validate({ userName, email, password, role });
-    if (error) return res.status(400).json({ message: error.details[0].message });
+    const { error } = registerSchema.validate({ firstName, lastName, userName, email, password, role });
+    if (error) {
+      return res.status(400).json({ message: error.details[0].message });
+    }
 
     // Check if user already exists
     const existingUser = await UserModel.findOne({ email });
-    if (existingUser) return res.status(400).json({ message: 'User already exists' });
+    if (existingUser) {
+      return res.status(400).json({ message: 'User already exists' });
+    }
 
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create new user
     const newUser = new UserModel({
+      firstName,
+      lastName,
       userName,
       email,
       password: hashedPassword,
       role,
     });
 
+    // Save user to database
     const savedUser = await newUser.save();
-    res.status(201).json(savedUser);
+
+    // Send successful response
+    res.status(201).json({
+      message: 'User registered successfully',
+    });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    // Pass error to the next middleware
+    next(error);
   }
 };
 
-// LogIn function
+
+
 export const login = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, userName, password } = req.body;
 
   try {
     // Validate input data
-    const { error } = loginSchema.validate({ email, password });
-    if (error) return res.status(400).json({ message: error.details[0].message });
+    const { error } = loginSchema.validate({ email, userName, password });
+    if (error) {
+      return res.status(400).json({ message: error.details[0].message });
+    }
 
-    // Find user by email
-    const user = await UserModel.findOne({ email });
+    // Check if at least one of email or username is provided
+    if (!email && !userName) {
+      return res.status(400).json({ message: 'Email or Username is required' });
+    }
+
+    // Find user by email or username
+    const user = await UserModel.findOne({
+      $or: [{ email }, { userName }],
+    });
+
+    // If user not found or password is incorrect
     if (!user || !(await bcrypt.compare(password, user.password))) {
-      return res.status(401).json({ message: 'Invalid credentials' });
+      return res.status(401).json({ message: 'Invalid email/username or password' });
     }
 
     // Generate JWT token
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ id: user._id, userName: user.userName, role: user.role }, process.env.JWT_SECRET, { expiresIn: '8h' });
 
-    // Initialize session
-    req.session.user = { id: user._id, userName: user.userName, role: user.role };
+    // Initialize session if using session management
+    if (req.session) {
+      req.session.user = { id: user._id, userName: user.userName, role: user.role };
+    }
 
-    res.status(200).json({ token });
+    // Send success response
+    res.status(200).json({ message: 'Logged in successfully', token });
   } catch (error) {
+    console.error('Login error:', error); // Log error for debugging
     res.status(500).json({ message: 'Server error' });
   }
 };
+
+
+
+
+
+
+
 
 // Forgot Password function
 export const forgotPassword = async (req, res, next) => {

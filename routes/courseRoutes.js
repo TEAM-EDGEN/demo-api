@@ -1,12 +1,13 @@
 import { Router } from 'express';
-import { protect, authorizeRoles } from '../middlewares/auth.js';
+import { verifyUser, instructorOnly, studentOnly } from '../middlewares/auth.js';
 import { createCourse, editCourse, deleteCourse, getCoursesByInstructor } from '../controllers/courseController.js';
 
 const courseRouter = Router();
 
-courseRouter.post('/course', protect, authorizeRoles('instructor'), createCourse);
-courseRouter.patch('/course/:Id', protect, authorizeRoles('instructor'), editCourse);
-courseRouter.delete('/course/:Id', protect, authorizeRoles('instructor'), deleteCourse);
-courseRouter.get('/course', protect, authorizeRoles('instructor', 'student'), getCoursesByInstructor);
+courseRouter.post('/course', createCourse);
+    // verifyUser, instructorOnly, 
+courseRouter.patch('/course/:Id',verifyUser, instructorOnly, editCourse);
+courseRouter.delete('/course/:Id',verifyUser, instructorOnly, deleteCourse);
+courseRouter.get('/course', verifyUser, instructorOnly, studentOnly, getCoursesByInstructor);
 
 export default courseRouter;

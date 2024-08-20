@@ -1,19 +1,20 @@
 import { Schema, model, Types } from 'mongoose';
 import { toJSON } from '@reis/mongoose-to-json';
-import bcrypt from 'bcrypt';
 
 
 
 const userSchema = new Schema({
-  userName: { type: String, required: true },
+  firstName: { type: String, required: true },
+ lastName: { type: String, required: true },
+  userName: { type: String, unique: true, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  role: { type: String, enum: ['Student', 'Parent', 'Instructor', 'Educational_head'], default: 'Student' },
-  profile: { 
-    type: Types.ObjectId, 
-    refPath: 'role' 
-    // Dynamically reference either 'Student' or 'Instructor' schema based on role
-  },
+  role: { type: String, enum: ['Student', 'Parent', 'Instructor', 'Educational_head'], required: true, default: 'Student' },
+  // profile: { 
+  //   type: Types.ObjectId, 
+  //   refPath: 'role' 
+  //   // Dynamically reference either 'Student' or 'Instructor' schema based on role
+  // },
   resetPasswordToken: { type: String },
     resetPasswordExpires: { type: Date }
 }, {
