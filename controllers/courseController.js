@@ -61,19 +61,21 @@ export const enrollInCourse = async (req, res) => {
 
 
 //  Create a Course
-export const createCourse = async (req, res) => {
+export const createCourse = async (req, res, next) => {
   try {
     // Assuming an instructor's ID searched in the request (e.g., through authentication)
-    const instructorId = req.user.id; 
+    const instructorId = req.session?.user?.id || req?.user.id; 
     const instructor = await InstructorModel.findById(instructorId);
     if (!instructor) return res.status(404).json({ message: 'Instructor not found' });
 
-    const { name, description, subject, duration } = req.body;
+    const { title, gradeLevel, description, difficulty, content } = req.body;
     const newCourse = new CourseModel({
-      name,
+      title,
+      gradeLevel,
       description,
-      subject,
-      duration,
+      difficulty,
+      content,
+      // duration,
       instructor: instructorId,
     });
 
@@ -85,7 +87,8 @@ export const createCourse = async (req, res) => {
 
     res.status(201).json(savedCourse);
   } catch (error) {
-    res.status(500).json({ message: 'Server error' });
+    // res.status(500).json({ message: 'Server error' });
+  next(error);
   }
 };
 

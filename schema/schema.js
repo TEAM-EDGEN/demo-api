@@ -2,18 +2,20 @@ import joi from 'joi';
 
 
 // User Joi Schema
-export const userSchema = joi.object({
-  userName: joi.string().required(),
-  email: joi.string().email().required(),
-  password: joi.string().required(),
-  role: joi.string().valid('Student', 'Parent', 'Instructor', 'Educational_head').default('Student'),
-  // ObjectId as string
-  student: joi.array().items(joi.string().hex().length(24)), 
-    // ObjectId as string
-  instructor: joi.array().items(joi.string().hex().length(24)), 
-  resetPasswordToken: joi.string().optional(),
-  resetPasswordExpires: joi.date().optional(),
-});
+// export const userSchema = joi.object({
+//   firstName: joi.string().required(),
+//   lastName: joi.string().required(),
+//   userName: joi.string().required(),
+//   email: joi.string().email().required(),
+//   password: joi.string().required(),
+//   role: joi.string().valid('Student', 'Parent', 'Instructor', 'Educational_head').default('Student'),
+//   // ObjectId as string
+//   student: joi.array().items(joi.string().hex().length(24)), 
+//     // ObjectId as string
+//   instructor: joi.array().items(joi.string().hex().length(24)), 
+//   resetPasswordToken: joi.string().optional(),
+//   resetPasswordExpires: joi.date().optional(),
+// });
 
 
 // Student Joi Schema
@@ -63,13 +65,22 @@ export const leaderboardSchema = joi.object({
 });
 
 
+// course Joi Schema
+export const courseSchema = joi.object({
+  title: joi.string().required(),
+  gradeLevel: joi.string().optional(),
+  description: joi.string().optional(),
+  difficulty: joi.number().required(),
+  content: joi.string().optional(),
+});
+
 
 // Registration Joi Schema
 export const registerSchema = joi.object({
-  firstname: joi.string().required(),
-  lastname:joi.string().required(),
-  username: joi.string().required(),
-  role: { type: String, enum: ['Student', 'Parent', 'Educational_head', 'Instructor'], required: true },
+  firstName: joi.string().required(),
+  lastName:joi.string().required(),
+  userName: joi.string().required(),
+  role: joi.string().valid('Student', 'Parent', 'Educational_head', 'Instructor').required().default('Student'),
   email: joi.string().email().required(),
   password: joi.string().required()
 });
@@ -77,8 +88,8 @@ export const registerSchema = joi.object({
 
 // Login Joi Schema
 export const loginSchema = joi.object({
-  username: joi.string().alphanum(),
-  email: joi.string().email().required(),
+  userName: joi.string().alphanum(),
+  email: joi.string().email().optional(),
   password: joi.string().required(),
 });
 

@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import { UserModel } from '../models/userModel.js';
 
 export const protect = async (req, res, next) => {
   const { authorization } = req.headers;
@@ -7,7 +8,7 @@ export const protect = async (req, res, next) => {
   try {
     const token = authorization.split(' ')[1];
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = await User.findById(decoded.id);
+    req.user = await UserModel.findById(decoded.id);
     next();
   } catch (error) {
     res.status(401).json({ message: 'Not authorized' });
@@ -88,18 +89,20 @@ export const educationalHeadOnly = (req, res, next) => {
 
 
 
-
-
-// Verify user by checking JWT token in headers
 export const verifyUser = async (req, res, next) => {
   let token;
 
   if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
     try {
       token = req.headers.authorization.split(' ')[1];
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      req.user = await User.findById(decoded.id).select('-password');
+      console.log('Token:', token); // Log the token for debugging
       
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      console.log('Decoded Token:', decoded); // Log the decoded token
+      
+      req.user = await User.findById(decoded.id).select('-password');
+      console.log('Authenticated User:', req.user); // Log the authenticated user
+
       if (!req.user) {
         return res.status(401).json({ message: 'Unauthorized: Invalid token' });
       }
@@ -112,6 +115,35 @@ export const verifyUser = async (req, res, next) => {
     res.status(401).json({ message: 'Unauthorized: No token provided' });
   }
 };
+
+
+
+
+
+
+
+// Verify user by checking JWT token in headers
+// export const verifyUser = async (req, res, next) => {
+//   let token;
+
+//   if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+//     try {
+//       token = req.headers.authorization.split(' ')[1];
+//       const decoded = jwt.verify(token, process.env.JWT_SECRET);
+//       req.user = await User.findById(decoded.id).select('-password');
+      
+//       if (!req.user) {
+//         return res.status(401).json({ message: 'Unauthorized: Invalid token' });
+//       }
+
+//       next();
+//     } catch (error) {
+//       res.status(401).json({ message: 'Unauthorized: Token verification failed' });
+//     }
+//   } else {
+//     res.status(401).json({ message: 'Unauthorized: No token provided' });
+//   }
+// };
 
 // Session-based user verification (alternative method)
 // export const verifyUserSession = (req, res, next) => {
